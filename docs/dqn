@@ -1,0 +1,6 @@
+- generate state
+- forward state
+- find action/reward by policy
+- check actual reward
+- add experience to replay memory (state->fixed_output)
+- batch optimization. criteria?

@@ -84,11 +84,12 @@ celerybeat-schedule
 # Environments
 .env
 .venv
-env/
+*.png
 venv/
-ENV/
+# ENV/
 env.bak/
 venv.bak/
+models/map.save
 
 # Spyder project settings
 .spyderproject

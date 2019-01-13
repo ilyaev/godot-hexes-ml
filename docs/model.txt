@@ -1,0 +1,29 @@
+Features
+
+- graph connections matrix 42x42 = 1764
+    - -1: no transition
+    - >0: Population From > Population To (step 0.1)
+    -  0: Popuation To = Population From
+    - <0: Population From < Population To (step -0.1)
+- selection vector 42
+    -  0: not selected
+    -  1: selected
+- country vector 42
+    -  0: enemy region
+    -  [0-1]: conquered region. step 0.1 for each population
+
+
+Output
+
+- action vector 2
+    [0] - make turn
+    [1] - end turn
+- selection vector 42
+    [N] - region index
+
+
+Reward
+
+- 0: score not increased
+- 1: score increased
+

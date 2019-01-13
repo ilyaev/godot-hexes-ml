@@ -1,0 +1,17 @@
+
+class Arena
+
+properties
+- regions: Region[]
+- adjacency_matrix: [][]
+
+methods
+- load_from_json
+
+
+
+class Region
+- links: number[]
+- country_id: number
+- id: number
+- population: number
