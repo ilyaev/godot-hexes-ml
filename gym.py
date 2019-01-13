@@ -70,8 +70,9 @@ class Gym:
 
 if __name__ == '__main__':
     gym = Gym()
-    for i in range(1000):
+    i = 0
+    while True:
         if i % 100 == 0:
             torch.save(gym.net.state_dict(), 'models/map.save')
-            print('SAVE: ' + str(i))
+            print('SAVE: ' + str(i++))
         gym.evaluate()
