@@ -74,5 +74,6 @@ if __name__ == '__main__':
     while True:
         if i % 100 == 0:
             torch.save(gym.net.state_dict(), 'models/map.save')
-            print('SAVE: ' + str(i++))
+            print('SAVE: ' + str(i))
+            i = i + 1
         gym.evaluate()
