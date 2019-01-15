@@ -49,7 +49,7 @@ class Arena:
     def act(self, region_id, end_turn=False):
         if end_turn:
             self.end_turn()
-            return -0.5
+            return 0
 
         if self.selected_region == -1:
             if self.regions[region_id].country_id != self.active_player or region_id == self.selected_region:
@@ -79,8 +79,8 @@ class Arena:
         target = self._throw_dices(target_region.population)
 
         if src > target:
-            src_region.population = 1
             target_region.population = src_region.population - 1
+            src_region.population = 1
 
             self.country_regions[target_region.country_id].remove(
                 target_region_id)
@@ -104,8 +104,29 @@ class Arena:
         self._plant_population()
         self._calculate_scores()
         self.max_players = len(self.scores)
+        # self.print_country(0)
 
     def end_turn(self):
+        # print('--BEFORE')
+        # self.print_country(self.active_player)
+        tod = self.scores[self.active_player]
+        rgs = self.country_regions[self.active_player]
+        # print('RGS:', rgs)
+        while tod > 0:
+            idx = rgs[random.randint(
+                0, len(rgs) - 1)]
+            canbe = False
+            for i in range(len(rgs)):
+                if self.regions[rgs[i]].population < MAX_POPULATION:
+                    canbe = True
+            if not canbe:
+                tod = 0
+            if self.regions[idx].population < MAX_POPULATION:
+                tod = tod - 1
+                self.regions[idx].population = self.regions[idx].population + 1
+            # print('tod: ', tod, idx, )
+        # print('--AFTER')
+        # self.print_country(self.active_player)
         self.active_player = self.active_player + 1
         if self.active_player >= self.max_players:
             self.active_player = 0
@@ -186,6 +207,14 @@ class Arena:
     def _build_country_map(self):
         for region in self.regions:
             self.country_regions[region.country_id].extend([region.id])
+
+    def print_country(self, country_id):
+        pops = []
+        for i in range(len(self.regions)):
+            if self.regions[i].country_id == self.active_player:
+                pops.append(self.regions[i].population)
+        print('CO: ', country_id, ' Score: ',
+              self.scores[country_id], ' Pops: ', pops, ' / ', sum(pops))
 
     def load_from_file(self, file_name):
         with open(file_name) as f:

@@ -26,13 +26,32 @@ class Gym:
             self.net.load_state_dict(torch.load('models/map.save'))
             self.net.eval()
 
+    def build_available_actions(self):
+        actions = []
+        if self.arena.selected_region < 0:
+            for i in range(len(self.arena.regions)):
+                if self.arena.regions[i].country_id == self.arena.active_player and self.arena.regions[i].population > 1:
+                    actions.append(i)
+            actions = actions + [self.arena.regions_count]
+        else:
+            avec = self.arena.regions[self.arena.selected_region].adjacency_vector
+            for i in range(len(avec)):
+                if avec[i] == 1 and self.arena.regions[i].country_id != self.arena.active_player:
+                    actions.append(i)
+            if len(actions) == 0:
+                actions = actions + [self.arena.regions_count]
+
+        return actions
+
     def evaluate(self):
         s = self.build_input()
-        a = self.net.act(s)
+        available_actions = self.build_available_actions()
+        a = self.net.act(s, available_actions)
         end_turn = False
         if a == self.arena.regions_count:
             end_turn = True
-            print('END_TURN -> ' + str(self.arena.active_player))
+            print('END_TURN -> ' + str(self.arena.active_player),
+                  ' Score: ', self.arena.scores[self.arena.active_player], ':', len(self.arena.country_regions[self.arena.active_player]))
         r = self.arena.act(a, end_turn)
         s1 = self.build_input()
         self.net.learn(s, a, s1, r)

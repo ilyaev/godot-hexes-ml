@@ -61,13 +61,15 @@ class DQNNet(nn.Module):
         x = self.fc2(x)
         return x
 
-    def act(self, s):
+    def act(self, s, av):
         a = 0
-
         if random.random() <= self.epsilon:
-            a = random.randint(0, self.actions_len - 1)
+            a = av[random.randint(0, len(av) - 1)]
         else:
             actions = self.forward(torch.tensor(s).float()).tolist()
+            for i in range(self.actions_len):
+                if not(i in av):
+                    actions[i] = -1000
             a = actions.index(
                 max(actions))
 
