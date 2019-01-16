@@ -107,26 +107,25 @@ class Arena:
         # self.print_country(0)
 
     def end_turn(self):
-        # print('--BEFORE')
-        # self.print_country(self.active_player)
         tod = self.scores[self.active_player]
         rgs = self.country_regions[self.active_player]
-        # print('RGS:', rgs)
-        while tod > 0:
-            idx = rgs[random.randint(
-                0, len(rgs) - 1)]
-            canbe = False
-            for i in range(len(rgs)):
-                if self.regions[rgs[i]].population < MAX_POPULATION:
-                    canbe = True
-            if not canbe:
-                tod = 0
-            if self.regions[idx].population < MAX_POPULATION:
-                tod = tod - 1
-                self.regions[idx].population = self.regions[idx].population + 1
-            # print('tod: ', tod, idx, )
-        # print('--AFTER')
-        # self.print_country(self.active_player)
+
+        if len(rgs) > 0:
+            while tod > 0:
+                idx = 0
+                if len(rgs) > 1:
+                    idx = rgs[random.randint(
+                        0, len(rgs) - 1)]
+                canbe = False
+                for i in range(len(rgs)):
+                    if self.regions[rgs[i]].population < MAX_POPULATION:
+                        canbe = True
+                if not canbe:
+                    tod = 0
+                if self.regions[idx].population < MAX_POPULATION:
+                    tod = tod - 1
+                    self.regions[idx].population = self.regions[idx].population + 1
+
         self.active_player = self.active_player + 1
         if self.active_player >= self.max_players:
             self.active_player = 0
