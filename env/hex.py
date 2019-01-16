@@ -95,7 +95,7 @@ class Arena:
         score_diff = score_after - score_before
         self.selected_region = -1
         if score_diff > 0:
-            return 1
+            return 0.2 * score_diff
         else:
             return 0
 
