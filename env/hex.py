@@ -181,7 +181,7 @@ class Arena:
 
     def _calculate_scores(self, country_id=-1):
         if country_id == -1:
-            self.scores = list(map(lambda x: 0, range(self.countries)))
+            self.scores = list(map(lambda x: 1, range(self.countries)))
         for region in self.regions:
             if country_id >= 0 and region.country_id != country_id:
                 continue

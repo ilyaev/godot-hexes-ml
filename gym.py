@@ -41,13 +41,19 @@ class Gym:
                     avec = self.arena.regions[i].adjacency_vector
                     for j in range(len(avec)):
                         if avec[j] == 1 and self.arena.regions[j].country_id != self.arena.active_player:
-                            actions.append(i)
+                            df = self.arena.regions[j].population - \
+                                self.arena.regions[i].population
+                            if df <= 0:
+                                actions.append(i)
             actions = actions + [self.arena.regions_count]
         else:
             avec = self.arena.regions[self.arena.selected_region].adjacency_vector
             for i in range(len(avec)):
                 if avec[i] == 1 and self.arena.regions[i].country_id != self.arena.active_player:
-                    actions.append(i)
+                    df = self.arena.regions[i].population - \
+                        self.arena.regions[self.arena.selected_region].population
+                    if df <= 0:
+                        actions.append(i)
             if len(actions) == 0:
                 actions = actions + [self.arena.regions_count]
 
