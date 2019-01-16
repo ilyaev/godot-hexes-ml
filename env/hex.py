@@ -111,8 +111,12 @@ class Arena:
         rgs = self.country_regions[self.active_player]
 
         if len(rgs) > 0:
+            gltod = 1000
             while tod > 0:
                 idx = 0
+                gltod -= 1
+                if gltod <= 0:
+                    tod = 0
                 if len(rgs) > 1:
                     idx = rgs[random.randint(
                         0, len(rgs) - 1)]
