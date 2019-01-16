@@ -13,18 +13,25 @@ import os
 class Gym:
     arena = Hex.Arena()
     data = dict()
+    metrics = dict()
 
     def __init__(self):
-        with open('models/map.json') as f:
-            self.data = json.load(f)
-        self.arena.load_from_file(os.getcwd().replace(
-            '/env', '') + '/models/map.json')
-        self.arena.new_game()
+        self.metrics = {'round': 0, 'turn': 1, 'act': 0, 'learn': 0}
+        self.new_round()
         self.net = DQNNet(len(self.arena.regions))
         if os.path.exists('models/map.save'):
             print('RESTORE')
             self.net.load_state_dict(torch.load('models/map.save'))
             self.net.eval()
+
+    def new_round(self):
+        with open('models/map.json') as f:
+            self.data = json.load(f)
+        self.arena.load_from_file(os.getcwd().replace(
+            '/env', '') + '/models/map.json')
+        self.arena.new_game()
+        self.metrics['round'] += 1
+        print('NEW_ROUND -> ', self.metrics)
 
     def build_available_actions(self):
         actions = []
@@ -47,14 +54,32 @@ class Gym:
         s = self.build_input()
         available_actions = self.build_available_actions()
         a = self.net.act(s, available_actions)
+        self.metrics['act'] += 1
         end_turn = False
         if a == self.arena.regions_count:
             end_turn = True
-            print('END_TURN -> ' + str(self.arena.active_player),
-                  ' Score: ', self.arena.scores[self.arena.active_player], ':', len(self.arena.country_regions[self.arena.active_player]))
+            if self.arena.active_player == self.arena.max_players - 1:
+                self.metrics['turn'] += 1
+            print('NEXT_PLAYER -> ' + str(self.arena.active_player),
+                  'S:' + str(self.arena.scores[self.arena.active_player])+':'+str(len(self.arena.country_regions[self.arena.active_player])), self.metrics, self.arena.scores, self.arena.get_country_sizes())
         r = self.arena.act(a, end_turn)
+        if r > 0:
+            # print('learn: ', r, 'a:', a)
+            self.metrics['learn'] += 1
         s1 = self.build_input()
         self.net.learn(s, a, s1, r)
+        if end_turn == True:
+            self.check_for_new_round()
+
+    def check_for_new_round(self):
+        eco = 0
+        min_score = 3
+        country_sizes = self.arena.get_country_sizes()
+        for i in range(self.arena.max_players):
+            if country_sizes[i] < min_score:
+                eco += 1
+        if eco >= self.arena.max_players - 1:
+            self.new_round()
 
     def build_input(self):
         data = self.data

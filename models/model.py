@@ -104,7 +104,5 @@ class DQNNet(nn.Module):
                     break
 
         self.memory.push(s, a, s1, r)
-        if r > 0:
-            print('learn: ', r, 'a:', a)
-
+        return r
         pass

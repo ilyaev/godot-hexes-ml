@@ -56,7 +56,7 @@ class Arena:
                 return -1
             else:
                 self.selected_region = region_id
-                print('SEL: ', region_id, 'CO:', self.active_player)
+                # print('SEL: ', region_id, 'CO:', self.active_player)
                 return 0
 
         src_region_id = self.selected_region
@@ -71,7 +71,7 @@ class Arena:
         if src_region.adjacency_vector[target_region_id] == 0:
             return -1
 
-        print('BAT: ', self.selected_region, '->', target_region_id)
+        # print('BAT: ', self.selected_region, '->', target_region_id)
 
         score_before = self.scores[src_region.country_id]
 
@@ -216,7 +216,20 @@ class Arena:
         print('CO: ', country_id, ' Score: ',
               self.scores[country_id], ' Pops: ', pops, ' / ', sum(pops))
 
+    def get_country_sizes(self):
+        rets = []
+        for i in range(self.countries):
+            rets.append(len(self.country_regions[i]))
+        return rets
+
     def load_from_file(self, file_name):
+        self.country_regions = []
+        self.country_scores = []
+        self.regions = []
+        self.adjacency_matrix = []
+        self.active_player = 0
+        self.selected_region = -1
+
         with open(file_name) as f:
             data = json.load(f)
         self.adjacency_matrix = data['full']
@@ -255,6 +268,6 @@ if __name__ == '__main__':
     arena = Arena()
     print('SelfTest', os.getcwd())
     arena.load_from_file(os.getcwd().replace('/env', '') + '/models/map.json')
-    print('Regions: ', len(arena.regions), ' / Countries: ', arena.countries)
+    print('Regions: ', len(arena.regions), ' / Countrzises: ', arena.countries)
     arena.new_game()
     print('Reward: ', arena.act(29, 30))

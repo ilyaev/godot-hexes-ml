@@ -1,0 +1,17 @@
+{
+    "restartable": "rs",
+    "ignore": [".git", "env/*.png", "models/map*", "__pycache__"],
+    "verbose": true,
+    "execMap": {
+        "js": "node --harmony",
+        "py": "source activate base && python3 -u "
+    },
+    "events": {
+        "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+    },
+    "watch": ["*.py"],
+    "env": {
+        "NODE_ENV": "development"
+    },
+    "ext": "py"
+}

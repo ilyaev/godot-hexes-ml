@@ -1,0 +1,23 @@
+{
+    "name": "godot-hexes-ml",
+    "version": "1.0.0",
+    "description": "Godot Hexes ML Gym",
+    "main": "gym.py",
+    "directories": {
+        "doc": "docs"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon gym.py"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ilyaev/godot-hexes-ml.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ilyaev/godot-hexes-ml/issues"
+    },
+    "homepage": "https://github.com/ilyaev/godot-hexes-ml#readme"
+}
