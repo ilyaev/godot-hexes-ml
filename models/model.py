@@ -45,7 +45,7 @@ class DQNNet(nn.Module):
     criterion = nn.MSELoss()
     memory = ReplayMemory(10000)
     actions_len = 0
-    batch_size = 10
+    batch_size = 1
 
     def __init__(self, regions_count):
         super(DQNNet, self).__init__()
