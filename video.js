@@ -12,6 +12,8 @@ const makeVideo = (s = '', r = '') => {
     out += r ? '_' + r : ''
     out += '_replay.mp4'
 
+    out = 'videos/' + out
+
     ep = "cd graphs && ffmpeg -f image2 -r 6 -pattern_type glob -i '" + pat + "' -pix_fmt yuv420p " + out
     console.log('EXEC: ' + ep)
     exec('rm graphs/' + out, (err, stdout, stderr) => {
