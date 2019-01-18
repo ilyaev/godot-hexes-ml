@@ -18,14 +18,14 @@ class Gym:
     data = dict()
     metrics = dict()
     session = dict({"name": "", "rounds": 0, "turns": 0,
-                    "acts": 0, "won": 0, "save_per_turns": 500})
+                    "acts": 0, "won": 0, "save_per_turns": 500, 'generate_turn_graph': 'false'})
     model_file = ''
 
     def __init__(self):
         self.init_session()
         print('START_SESSION:', self.session)
         self.metrics = {'round': 0, 'turn': 1, 'act': 0,
-                        'learn': 0, 'won': 0, 'generate_turn_graph': 'false'}
+                        'learn': 0, 'won': 0}
         self.new_round()
         self.net = DQNNet(len(self.arena.regions))
         self.model_file = 'models/' + self.session['name'] + '.save'
