@@ -8,7 +8,9 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon gym.py"
+        "start": "nodemon gym.py",
+        "video": "node ./video $1 $2",
+        "clear": "rm graphs/*"
     },
     "repository": {
         "type": "git",

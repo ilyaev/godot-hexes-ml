@@ -9,7 +9,7 @@
     "events": {
         "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
     },
-    "watch": ["*.py"],
+    "watch": ["gym.py", "hex.py", "model.py", "replay.py", "video.js"],
     "env": {
         "NODE_ENV": "development"
     },

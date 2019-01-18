@@ -137,11 +137,13 @@ class Arena:
         self.selected_region = -1
         pass
 
-    def draw_country_network(self, country_id, postfix=''):
+    def draw_country_network(self, country_id, file_name, label=''):
         nodelist = []
         edgelist = []
+        for i in range(self.regions_count):
+            nodelist.extend([i])
         for region_id in self.country_regions[country_id]:
-            nodelist.extend([region_id])
+            # nodelist.extend([region_id])
             for edge in self.G.edges(region_id):
                 if self.country_regions[country_id].count(edge[0]) > 0 and self.country_regions[country_id].count(edge[1]) > 0:
                     edgelist.extend([edge])
@@ -149,7 +151,7 @@ class Arena:
         options = {
             'node_size': 300,
             'width': 1,
-            'node_color': '#33cc33',
+            'node_color': '#EFEFEF',
             'font_size': 10,
             'nodelist': list(nodelist),
             'edgelist': list(edgelist),
@@ -157,7 +159,8 @@ class Arena:
         }
         plt.get_current_fig_manager().canvas.figure.clear()
         nx.draw_kamada_kawai(self.G, **options)  # best so far
-        plt.savefig('env/graph_' + str(country_id) + postfix + '.png')
+        plt.suptitle(label, y=0.05, x=0.3)
+        plt.savefig(file_name)
 
     def draw_network(self):
         options = {

@@ -90,10 +90,14 @@ venv/
 env.bak/
 venv.bak/
 models/map.save
+*.save
+.session
+*.mp4
 
 # Spyder project settings
 .spyderproject
 .spyproject
+graphs/*
 
 # Rope project settings
 .ropeproject
