@@ -10,6 +10,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "nodemon gym.py",
         "video": "node ./video $1 $2",
+	"serve": "cd graphs/videos && serve",
         "clear": "rm graphs/*"
     },
     "repository": {
